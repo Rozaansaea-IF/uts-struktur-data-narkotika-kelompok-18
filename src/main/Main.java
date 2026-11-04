@@ -72,6 +72,24 @@ public class Main {
                             ditemukan = true;
                             break;
                         }
+                        int langkah = 0;
+
+for (int i = 0; i < data.size(); i++) {
+
+    langkah++;
+
+    Putusan p = data.get(i);
+
+    if (p.getNomorPerkara() != null &&
+        p.getNomorPerkara().equalsIgnoreCase(nomor)) {
+
+        System.out.println(p);
+        ditemukan = true;
+        break;
+    }
+}
+
+System.out.println("Jumlah langkah: " + langkah);
                     }
 
                     if (!ditemukan) {
