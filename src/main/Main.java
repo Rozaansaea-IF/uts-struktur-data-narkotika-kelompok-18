@@ -80,13 +80,57 @@ public class Main {
 
                     break;
 
-                case 3:
+                case 3: 
+                    System.out.print("Nomor perkara: ");
+    String nomorBaru = input.nextLine();
 
-                    System.out.println(
-                        "Fitur tambah lengkap akan dibuat pada tahap berikutnya."
-                    );
+    System.out.print("Nama pengadilan: ");
+    String pengadilanBaru = input.nextLine();
 
-                    break;
+    System.out.print("Jenis narkotika: ");
+    String jenisBaru = input.nextLine();
+
+    System.out.print("Berat barang bukti (gram): ");
+    double beratBaru = input.nextDouble();
+
+    input.nextLine();
+
+    System.out.print("Pasal terbukti: ");
+    String pasalBaru = input.nextLine();
+
+    System.out.print("Vonis (bulan): ");
+    int vonisBaru = input.nextInt();
+
+    input.nextLine();
+
+    Putusan baru = new Putusan(
+        "P0001",
+        nomorBaru,
+        pengadilanBaru,
+        null,
+        "putusan_" + nomorBaru,
+        jenisBaru,
+        beratBaru,
+        null,
+        pasalBaru,
+        0,
+        vonisBaru,
+        0L,
+        null,
+        null,
+        null,
+        null,
+        null
+    );
+
+    data.add(baru);
+
+    System.out.println("Putusan berhasil ditambahkan!");
+
+    break;
+                    
+
+                    
 
                 case 4:
 
