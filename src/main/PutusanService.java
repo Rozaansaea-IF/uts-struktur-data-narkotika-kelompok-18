@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class PutusanService {
 
     public static Putusan search(
@@ -161,3 +165,109 @@ public class PutusanService {
 
         return null;
     }
+        public static DynamicArray<Putusan> sortingVonis(
+            DynamicArray<Putusan> data) {
+
+        DynamicArray<Putusan> hasil = new DynamicArray<>();
+
+        // Menyalin data
+        for (int i = 0; i < data.size(); i++) {
+            hasil.add(data.get(i));
+        }
+
+        // Insertion Sort berdasarkan vonis
+        for (int i = 1; i < hasil.size(); i++) {
+
+            Putusan key = hasil.get(i);
+
+            int j = i - 1;
+
+            while (j >= 0 &&
+                   hasil.get(j).getVonisBulan() >
+                   key.getVonisBulan()) {
+
+                hasil.set(j + 1, hasil.get(j));
+
+                j--;
+            }
+
+            hasil.set(j + 1, key);
+        }
+
+        return hasil;
+    }
+        private static String escapeCSV(String value) {
+
+        if (value == null) {
+            return "";
+        }
+
+        return "\"" + value.replace("\"", "\"\"") + "\"";
+    }
+
+    public static void exportCSV(
+            DynamicArray<Putusan> data,
+            String filePath) {
+
+        try (BufferedWriter writer =
+                 new BufferedWriter(new FileWriter(filePath))) {
+
+            writer.write(
+                "caseId,nomorPerkara,pengadilan,tanggalPutusan," +
+                "terdakwaKode,jenisNarkotika,beratBarangBuktiGram," +
+                "pasalDakwaan,pasalTerbukti,tuntutanBulan," +
+                "vonisBulan,dendaRupiah,barangBukti," +
+                "keadaanMemberatkan,keadaanMeringankan," +
+                "sourcePages,sourceFile"
+            );
+
+            writer.newLine();
+
+            for (int i = 0; i < data.size(); i++) {
+
+                Putusan p = data.get(i);
+
+                String tanggal = p.getTanggalPutusan() == null
+                    ? ""
+                    : p.getTanggalPutusan().toString();
+
+                String[] kolom = {
+                    p.getCaseId(),
+                    p.getNomorPerkara(),
+                    p.getPengadilan(),
+                    tanggal,
+                    p.getTerdakwaKode(),
+                    p.getJenisNarkotika(),
+                    String.valueOf(p.getBeratBarangBuktiGram()),
+                    p.getPasalDakwaan(),
+                    p.getPasalTerbukti(),
+                    String.valueOf(p.getTuntutanBulan()),
+                    String.valueOf(p.getVonisBulan()),
+                    String.valueOf(p.getDendaRupiah()),
+                    p.getBarangBukti(),
+                    p.getKeadaanMemberatkan(),
+                    p.getKeadaanMeringankan(),
+                    p.getSourcePages(),
+                    p.getSourceFile()
+                };
+
+                for (int j = 0; j < kolom.length; j++) {
+
+                    if (j > 0) {
+                        writer.write(",");
+                    }
+
+                    writer.write(escapeCSV(kolom[j]));
+                }
+
+                writer.newLine();
+            }
+
+            System.out.println("Ekspor berhasil: " + filePath);
+
+        } catch (IOException e) {
+
+            System.out.println("Gagal ekspor: " + e.getMessage());
+        }
+    }
+}
