@@ -1,0 +1,3 @@
+- Mendiskusikan struktur data utama dan sekunder yang akan di gunakan pada program
+- memperbaiki error pada main.java
+- membantu ekstraksi data 
